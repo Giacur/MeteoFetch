@@ -18,6 +18,7 @@ mainContainer.classList.add('d-none');
 const spinnerDue = document.querySelector('#spinner2')
 spinnerDue.classList.add('d-none')
 const cittaCorrente = document.querySelector('#cittaCorrente');
+const form = document.querySelector('form');
 
 
 //FUNCTIONS
@@ -117,16 +118,6 @@ function pushMyData(obj) {
     userInput.value = "";
 }
 
-//ascolto bottone e mostro dati
-btn.addEventListener('click',() => {
-    datiCitta.classList.add('d-none')
-    spinnerDue.classList.remove('d-none')
-    setTimeout(() => {
-        spinnerDue.classList.add('d-none')
-        getMeteoData()
-    }, 1000);
-})
-
 //citta e meteo locali
 function getcurrentLocationData(obj) {
     cittaCorrente.innerHTML = `${obj.location.name} ${obj.current.temp_c}°<img src="${obj.current.condition.icon}">`
@@ -138,6 +129,17 @@ navigator.geolocation.getCurrentPosition((position) => {
     let long = position.coords.longitude;
     currentLocationData(lat, long)
 });
+
+//prevengo il comportamento del bottone FORM e al submit faccio focus sul bottone stesso.
+form.addEventListener('submit', (e)=>{
+    e.preventDefault()
+    datiCitta.classList.add('d-none')
+    spinnerDue.classList.remove('d-none')
+    setTimeout(() => {
+        spinnerDue.classList.add('d-none')
+        getMeteoData()
+    }, 1000);
+})
 
 //INVOCATIONS
 setInterval(() => {
